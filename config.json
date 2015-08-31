@@ -1,0 +1,30 @@
+{
+    "gh_server": "github.com",
+    "temp": "/home/feelpp-web/",
+    "doc_branch_master": "master",
+    "doc_branch_develop": "develop",
+    "public_repo": true,
+    "scripts": {
+      "#default": {
+        "build": "./scripts/jekyll/build.sh",
+        "publish": "./scripts/csmi.math.unistra.fr/publish.sh",
+        "buildDoc": "./scripts/feelpp-doxygen/buildDoc.sh",
+        "publishDoc": "./scripts/feelpp-doxygen/publishDoc.sh",
+        "pullNews": "./scripts/news/pull.sh",
+        "publish_no_ghpages": "./scripts/jekyll/publish_no_ghpages.sh"
+      }
+    },
+    "secret": "",
+    "email": {
+        "isActivated": false,
+        "user": "",
+        "password": "",
+        "host": "smtp.gmail.com",
+        "ssl": true
+    },
+    "accounts": [
+	    "feelpp",
+        "cemosis",
+        "feelpp-robot"
+    ]
+}
