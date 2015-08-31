@@ -34,7 +34,6 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 To avoid path issues, install packages globally.
 
 ```bash
-sudo npm install -g forever
 sudo npm install -g fs
 sudo npm install -g express
 sudo npm install -g queue-async
