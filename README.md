@@ -18,8 +18,6 @@ $ usermod -g primarygroupname username
 
 ## Installation
 
-Do the following installation steps with `feelpp-web` user.
-
 ### Install apt packages
 ```bash
 sudo apt-get update
