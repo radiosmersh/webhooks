@@ -164,7 +164,7 @@ server {
         listen [::]:80;
 
         #root /usr/share/nginx/html/;
-        root /var/www/www.cemosis.fr; # use path recording to path where static files were generated
+        root /var/www/www.cemosis.fr/site; # use path recording to path where static files were generated
         index index.html index.htm;
 
         # Make site accessible from http://localhost/
