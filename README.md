@@ -1,20 +1,4 @@
-# Webhook service setup
-
-## User creation and user configuration
-
-Create a user called `feelpp-web` and add this user to group `www-data`, which is a group special for Nginx web server.
-
-```bash
-sudo adduser feelpp-web
-sudo adduser feelpp-web sudo # this is optional, you can also use another sudoer user and install all necessary packages/npm/gems
-sudo usermod -a -G www-data feelpp-web #change user
-```
-We also need to change its default group from `feelpp-web` to `www-data`.
-To assign a primary group to an user:
-
-```bash
-$ usermod -g primarygroupname username
-```
+#Setup Webhooks As A Upstrat Service With Node.js And Bash Scripts
 
 ## Installation
 
@@ -47,7 +31,29 @@ sudo gem install jekyll rdiscount json
 sudo apt-get install nginx
 ```
 
-Then login with user `feelpp-web` and do a `npm install` in `/home/feelpp-web/hooks/`.
+## User creation and user configuration
+
+Create a user called `feelpp-web` and add this user to group `www-data`, which is a group special for Nginx web server.
+
+```bash
+sudo adduser feelpp-web
+sudo adduser feelpp-web sudo # this is optional, you can also use another sudoer user and install all necessary packages/npm/gems
+sudo usermod -a -G www-data feelpp-web #Add a user to a group
+```
+We also need to change its default group from `feelpp-web` to `www-data`.
+To assign a primary group to an user:
+
+```bash
+$ usermod -g primarygroupname username
+```
+
+Then login with user `feelpp-web`. Clone Github repository [webhooks](https://github.com/cemosis/webhooks/) into `/home/feelpp-web/hooks/`. And do a `npm install` in `/home/feelpp-web/hooks/`.
+
+Transfer ownership of directory `/var/www/` to user `feelpp-web` and give him full permissions.
+```bash
+sudo chown -R feelpp-web:www-data /var/www/
+sudo chmod u+rwx /var/www/
+````
 
 ## Configuration
 
@@ -177,7 +183,9 @@ server {
 sudo ln -s /etc/nginx/sites-available/www.cemosis.fr /etc/nginx/sites-enabled/www.cemosis.fr
 ```
 Follow the steps above for each webiste(doc.feelpp.org, cemosis.fr, www.feelpp.org, csmi.math.unistra.fr...)
-
+```
+Note: for doc.feelpp.org, set `/var/www/doc.feelpp.org/html/`as root in Nginx's settings. The index page of doc.feelpp.org should be generated into this folder by doxygen and webhooks will automatically build `master/` folder and `develop/` folder into it.
+```
 Then delete the default enabled website setting.
 
 ```bash
@@ -216,10 +224,7 @@ limit nofile 1000000 1000000
 console log
 
 script
-  
-  mkdir -p /home/feelpp-web/hooks
-  cd /home/feelpp-web/hooks
-  
+
   cd /home/feelpp-web/hooks
 /home/feelpp-web/hooks/jekyll-hook.js &gt;&gt; /home/feelpp-web/log/webhook.log 2&gt;&amp;1
 end script
@@ -261,6 +266,41 @@ respawn
 
 Check log file firstly in /home/feelpp-web/log/webhook.log then in /var/log/upstart/webhook.log to ensure everything works.
 
+###Setup webhooks for websites
+#### csmi.math.unistra.fr and csmi.cemosis.fr
+In Github repository settings, go to Webhooks & services and click Add webhook button.
+```
+Payload URL: http://csmi.math.unitra.fr:8080/hooks/jekyll/master
+Content type:
+application/json
+Secret:
+******
+Which events would you like to trigger this webhook?
+Just the `push` event.
+- [x] Active
+```
+#### www.cemosis.fr and www.feelpp.org
+```
+Payload URL: http://csmi.math.unitra.fr:8080/hooks/jekyll_no_ghpages/master
+Content type:
+application/json
+Secret:
+******
+Which events would you like to trigger this webhook?
+Just the `push` event.
+- [x] Active
+```
+#### doc.feelpp.org
+```
+Payload URL: http://csmi.math.unitra.fr:8080/hooks/doxygen/
+Content type:
+application/json
+Secret:
+******
+Which events would you like to trigger this webhook?
+Just the `push` event.
+- [x] Active
+```
 ### Trouble shooting
 
 Check webhook upstart service status:
@@ -293,6 +333,7 @@ Error: spawn EACCES
     at Process.ChildProcess._handle.onexit (child_process.js:779:34)
 ```
 The script have no permission to do something, this often occures when the script is trying to modify file/directory that `feelpp-web` doesn't have permission to write.
+Be careful if you are going to create new sh scripts, make sure that you give `rwx` permissions to scripts that you write.
 
 ```javascript
 events.js:72
@@ -301,4 +342,3 @@ events.js:72
 Error: listen EADDRINUSE
 ```
 The port 8080 is already in use, make sure that no other programs are using that port and don't execute 2 instances of `jekyll-hook.js` at the same time.
-
