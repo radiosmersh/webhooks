@@ -264,6 +264,8 @@ respawn
 
 ```
 
+Start the service with: `sudo service webhook start`
+
 Check log file firstly in /home/feelpp-web/log/webhook.log then in /var/log/upstart/webhook.log to ensure everything works.
 
 ###Setup webhooks for websites
