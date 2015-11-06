@@ -15,7 +15,7 @@ fi
 cd $source/csmi.cemosis.fr
 
 git pull origin master
-
+git checkout master
 git subtree pull --prefix=_posts $giturl master --squash
 
 git push
@@ -29,7 +29,7 @@ fi
 cd $source/www.cemosis.fr
 
 git pull origin master
-
+git checkout master
 git subtree pull --prefix=_posts $giturl master --squash
 
 git push
@@ -43,7 +43,7 @@ fi
 cd $source/www.feelpp.org
 
 git pull origin master
-
+git checkout master
 git subtree pull --prefix=_posts $giturl master --squash
 
 git push
