@@ -1,4 +1,4 @@
-#Setup Webhooks As A Upstrat Service With Node.js And Bash Scripts
+#Setup Webhooks As A Upstart Service With Node.js And Bash Scripts
 
 ## Installation
 
