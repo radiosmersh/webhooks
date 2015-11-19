@@ -21,6 +21,15 @@ fi
 cd $source
 git checkout $branch
 git pull origin $branch
+
+# Pull the images from images lfs if needed and available
+# If the images are not displayed correctly, git-lfs might not be installed here
+hash "git-lfs" 2> /dev/null
+LFSTEST=$?
+if [[ $LFSTEST -eq 0 ]]; then
+    git lfs pull
+fi
+
 cd -
 
 # Run jekyll
