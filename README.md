@@ -23,6 +23,7 @@ sudo npm install -g express
 sudo npm install -g queue-async
 sudo npm install -g emailjs
 sudo npm install -g crypto
+sudo npm install -g console-ten
 ```
 We also need Jekyll and Nginx
 
