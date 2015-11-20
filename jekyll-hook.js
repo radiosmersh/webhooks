@@ -11,6 +11,9 @@ var email   = require('emailjs/email');
 var mailer  = email.server.connect(config.email);
 var crypto  = require('crypto');
 
+// Add logging with timestamps
+require('console-ten').init(console);
+
 //////////////////////////////////
 //////////////////////////////////
 
