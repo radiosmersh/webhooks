@@ -1,5 +1,9 @@
 #Setup Webhooks As A Upstart Service With Node.js And Bash Scripts
 
+## Introduction
+
+For more information, see the following report: [link](https://solael.gitbooks.io/internship-report/content/index.html)
+
 ## Installation
 
 ### Install apt packages
@@ -23,6 +27,7 @@ sudo npm install -g express
 sudo npm install -g queue-async
 sudo npm install -g emailjs
 sudo npm install -g crypto
+sudo npm install -g console-ten
 ```
 We also need Jekyll and Nginx
 
