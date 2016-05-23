@@ -22,6 +22,14 @@ fi
 cd $source
 git checkout $branch
 
+# Ensute that we really have no local modifications
+# Can notably caused by git lfs
+git stash
+git stash drop
+
+# First do a pull
+git pull origin $branch
+
 # Pull the images from images lfs if needed and available
 # If the images are not displayed correctly, git-lfs might not be installed here
 hash "git-lfs" 2> /dev/null
@@ -30,11 +38,9 @@ if [[ $LFSTEST -eq 0 ]]; then
     git lfs pull
 fi
 
-git pull origin $branch
-
 cd -
 
 # Run jekyll
 cd $source
-jekyll build -s $source -d $build
+jekyll build -t -V -s $source -d $build
 cd -

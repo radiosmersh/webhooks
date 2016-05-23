@@ -24,16 +24,16 @@ app.use(express.bodyParser({
         }
 
         if(!config.secret || config.secret==""){
-            console.log("Recieved a X-Hub-Signature header, but cannot validate as no secret is configured");
+            console.log("Received a X-Hub-Signature header, but cannot validate as no secret is configured");
             return;
         }
 
         var hmac         = crypto.createHmac('sha1', config.secret);
-        var recieved_sig = req.headers['x-hub-signature'].split('=')[1];
+        var received_sig = req.headers['x-hub-signature'].split('=')[1];
         var computed_sig = hmac.update(buffer).digest('hex');
 
-        if(recieved_sig != computed_sig){
-            console.warn('Recieved an invalid HMAC: calculated:' + computed_sig + ' != recieved:' + recieved_sig);
+        if(received_sig != computed_sig){
+            console.warn('Received an invalid HMAC: calculated:' + computed_sig + ' != received:' + received_sig);
             var err = new Error('Invalid Signature');
             err.status = 403;
             throw err;
